@@ -4,20 +4,30 @@ import React from 'react';
 
 // 関数コンポーネント
 function App() {
-  // const greeting = 'hi!'
-  // const dom = <h1 className="App">hello world!! {greeting}</h1>;
+  const profiles = [
+    {name: "taro", age: 10},
+    {name: "hanako", age: 5},
+    {name: "kazuya"},
+  ]
   return (
     <React.Fragment>
+      {
+        profiles.map((profile, index) => {
+          return <User name={profile.name} age={profile.age} key={index} />
+        })
+      }
       <label htmlFor="bar">bar</label>
       <input type="text" onChange={() => {console.log('true')}}></input>
-      <Cat /><Cat /><Cat /><Cat />
     </React.Fragment>
   )
-  // return dom;
 }
 
-const Cat = () => {
-  return <div>Meow!</div>
+const User = (props) => {
+return <div>Hi, I am {props.name}, and {props.age} years old!</div>
+}
+
+User.defaultProps = {
+  age: 1
 }
 
 export default App;
