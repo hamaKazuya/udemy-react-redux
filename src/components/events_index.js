@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { readEvents } from '../actions'
 
-class EventsInex extends Component {
+class EventsIndex extends Component {
   componentDidMount() {
     this.props.readEvents() // propsって何？どこからくる？
   }
@@ -46,4 +46,4 @@ const mapStateToProps = state => ({
 // この辺がよくわからない propsにdispatchをmapsする？
 const mapDispatchToProps = ({ readEvents })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventsInex)
+export default connect(mapStateToProps, mapDispatchToProps)(EventsIndex)
