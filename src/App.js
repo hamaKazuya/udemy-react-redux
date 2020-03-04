@@ -1,6 +1,5 @@
 import React from 'react';
-
-
+import PropTypes from 'prop-types'
 
 // 関数コンポーネント
 function App() {
@@ -8,6 +7,8 @@ function App() {
     {name: "taro", age: 10},
     {name: "hanako", age: 5},
     {name: "kazuya"},
+    {name: 1234},
+    {name: 'momo', age: '123'},
   ]
   return (
     <React.Fragment>
@@ -28,6 +29,11 @@ return <div>Hi, I am {props.name}, and {props.age} years old!</div>
 
 User.defaultProps = {
   age: 1
+}
+
+User.propTypes = {
+  name: PropTypes.string,
+  age: PropTypes.number.isRequired
 }
 
 export default App;
