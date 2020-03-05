@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk' // middleware
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import MuiThemeProvide from 'material-ui/styles/MuiThemeProvider'
 
 import './index.css';
 import reducer from './reducers'
@@ -18,17 +19,19 @@ const enhancer = process.env.NODE_ENV === 'development' ?
 const store = createStore(reducer, enhancer)
 
 ReactDOM.render(
-  <Provider store={ store }>
-    <BrowserRouter>
-      <Switch>
-        {/* exactはpathに完全に一致する場合という条件をつける */}
-        <Route exact path="/events/new" component={EventsNew} />
-        <Route exact path="/events/:id" component={EventsShow} />
-        <Route exact path="/events/" component={EventsIndex} />
-        <Route exact path="/" component={EventsIndex} />
-      </Switch>
-    </BrowserRouter>
-  </Provider>,
+  <MuiThemeProvide>
+    <Provider store={ store }>
+      <BrowserRouter>
+        <Switch>
+          {/* exactはpathに完全に一致する場合という条件をつける */}
+          <Route exact path="/events/new" component={EventsNew} />
+          <Route exact path="/events/:id" component={EventsShow} />
+          <Route exact path="/events/" component={EventsIndex} />
+          <Route exact path="/" component={EventsIndex} />
+        </Switch>
+      </BrowserRouter>
+    </Provider>
+  </MuiThemeProvide>,
   document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
