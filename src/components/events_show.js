@@ -11,6 +11,10 @@ class EventsShow extends Component {
     this.onSubmit = this.onSubmit.bind(this) // bindしないといけないらしい。まじで？めんどくさ
     this.onDeleteClick = this.onDeleteClick.bind(this) // bindしないといけないらしい。まじで？めんどくさ
   }
+  componentDidMount() {
+    const { id } = this.props.match.params
+    if ( id ) this.props.getEvent(id)
+  }
   renderField(field) {
     const { input, label, type, meta: { touched, error }} = field
     return (
@@ -27,12 +31,12 @@ class EventsShow extends Component {
 
   }
   async onSubmit(values) {
-    // await this.props.postEvent(values)
+    await this.props.putEvent(values)
     this.props.history.push('/')
   }
   render() {
     console.log('new')
-    const { handleSubmit, submitting, pristine } = this.props
+    const { handleSubmit, submitting, pristine, inavlid } = this.props
     return (
       <form onSubmit={ handleSubmit(this.onSubmit) }>
         <div><Field label="Title" name="title" type="text" component={ this.renderField } /></div>
@@ -41,7 +45,7 @@ class EventsShow extends Component {
 
         <div>
           {/* pristine: 空だとfalse, submitting: その名の通り */}
-          <input type="submit" value="Submit" disabled={pristine || submitting} />
+          <input type="submit" value="Submit" disabled={pristine || submitting || inavlid} />
           <Link to="/">Cancel</Link>
           <Link to="/" onClick={this.onDeleteClick}>Delete</Link>
         </div>
@@ -58,8 +62,16 @@ const validate = values => {
   // return errors
 }
 
-const mapDispatchToProps = ({ deleteEvent })
+const mapDispatchToProps = ({ deleteEvent, getEvent, putEvent })
+const mapStateToProps = (state, ownProps)=> {
+  const event = state.events[ownProps.match.params.id]
+  return { initialValues: event, event }
+}
 
-export default connect(null, mapDispatchToProps)(
-  reduxForm({ validate, form: 'eventShowForm' })(EventsShow)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  reduxForm({
+    validate,
+    form: 'eventShowForm',
+    enableReinitialize: true // initialValuesが変わるたびに初期化される
+  })(EventsShow)
 )

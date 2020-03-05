@@ -25,7 +25,7 @@ class EventsNew extends Component {
   }
   render() {
     console.log('new')
-    const { handleSubmit, submitting, pristine } = this.props
+    const { handleSubmit, submitting, pristine, invalid } = this.props
     return (
       <form onSubmit={ handleSubmit(this.onSubmit) }>
         <div><Field label="Title" name="title" type="text" component={ this.renderField } /></div>
@@ -34,7 +34,7 @@ class EventsNew extends Component {
 
         <div>
           {/* pristine: 空だとfalse, submitting: その名の通り */}
-          <input type="submit" value="Submit" disabled={pristine || submitting} />
+          <input type="submit" value="Submit" disabled={pristine || submitting || invalid} />
           <Link to="/">Cancel</Link>
         </div>
       </form>
@@ -46,8 +46,8 @@ const validate = values => {
 
   if (!values.title) errors.title = "Enter a title."
   if (!values.body) errors.body = "Enter a body."
-  
-  // return errors
+  // FIXME: [Warning]Cannot update a component from inside the function body of a different component.
+  return errors
 }
 
 const mapDispatchToProps = ({ postEvent })
